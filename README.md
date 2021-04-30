@@ -2,7 +2,7 @@
 
 This repository contains the codes that are used for developing a Tuition Matching Web Application as part of a school module project of creating an enterprise solution using microservices architecture.
 
-The team consists of 5 memebers including myself ( Wan Ning, Trisha, Ling li, Jae Hyuk , Hong Haii )
+The team consists of 5 members including myself ( Wan Ning, Trisha, Ling li, Jae Hyuk , Hong Haii )
 
 ## How to set up our project? ##
 
