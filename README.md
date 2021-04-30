@@ -2,6 +2,8 @@
 
 This repository contains the codes that are used for developing a Tuition Matching Web Application as part of a school module project of creating an enterprise solution using microservices architecture.
 
+The team consists of 5 memebers including myself ( Wan Ning, Trisha, Ling li, Jae Hyuk , Hong Haii )
+
 ## How to set up our project? ##
 
 1.	Run WAMP/MAMP server. 
@@ -58,5 +60,5 @@ This repository contains the codes that are used for developing a Tuition Matchi
 ![#4 2 User scenario](https://user-images.githubusercontent.com/43470271/116657686-6d273380-a9c1-11eb-972c-5d2275e7cfaf.jpg)
 ![#5 User scenario](https://user-images.githubusercontent.com/43470271/116657687-6d273380-a9c1-11eb-83f2-8e39e504e142.jpg)
 
-## Technical Overview Diagram for our Project ##
+## Technical Overview Diagram ##
 ![Technical Overview 2](https://user-images.githubusercontent.com/43470271/116657335-cf336900-a9c0-11eb-8546-ace9eda9780d.jpg)
