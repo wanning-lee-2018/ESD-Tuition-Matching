@@ -43,3 +43,9 @@ This repository contains the codes that are used for developing a Tuition Matchi
 13.	In your current working directory, start a new terminal to build the container and images by using docker-compose up.
 14.	Check on Docker Desktop to ensure the container and various images are running
 15.	Open the index_tutor.html and index_tutee.html files to start using our service with the tutee/tutor you have chosen for testing. 
+
+
+
+
+![Technical Overview 2](https://user-images.githubusercontent.com/43470271/116657335-cf336900-a9c0-11eb-8546-ace9eda9780d.jpg)
+
