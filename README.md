@@ -2,6 +2,10 @@
 
 This repository contains the codes that are used for developing a Tuition Matching Web Application as part of a school module project of creating an enterprise solution using microservices architecture.
 
+**Project brief description**
+
+Used microservices architecture style to build a solution for a business scenario (tuition matching) using technologies and tools such as Python, Flask web framework, Docker for containerisation and efficient running of web application, AMQP-based communication using RabbitMQ message broker, Restful APIs (e.g Telegram, SendGrid) and database management such as MySQL, SQLAlchemy, WampServer and phpMyAdmin.
+
 The team consists of 5 members including myself ( Wan Ning, Trisha, Ling li, Jae Hyuk , Hong Haii )
 
 ## How to set up our project? ##
