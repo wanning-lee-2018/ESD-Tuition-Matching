@@ -1,12 +1,14 @@
 # ESD-Tuition-Matching
+
 This repository contains the codes that are used for developing a Tuition Matching Web Application as part of a school module project of creating an enterprise solution using microservices architecture.
 
-**How to set up our project?**
+## How to set up our project? ##
 
 1.	Run WAMP/MAMP server. 
 2.	Run Docker Desktop.
 3.	Create a working folder.
 4.	Unzip the .zip file into the working folder. You should have the following:
+5.	
 ●	img
 ○	favicon.png
 ○	tutee_logo.png
@@ -34,6 +36,7 @@ This repository contains the codes that are used for developing a Tuition Matchi
 ●	tutor.Dockerfile
 ●	tutor.py
 ●	tutor.sql
+
 5.	Go to http://localhost/phpmyadmin,  enter “root” in the username field and leave password field empty.
 6.	Use the following .sql files: “tutee.sql”, “tutor.sql”, and “assignment.sql”, to create and populate the databases in WampServer.
 7. Allow remote access to the databases by creating a new user "is213" under "User Account" at WampServer and set the "Hostname" field to "Any Host" and the "Password" field as "No Password".
@@ -46,7 +49,7 @@ This repository contains the codes that are used for developing a Tuition Matchi
 14.	Check on Docker Desktop to ensure the container and various images are running
 15.	Open the index_tutor.html and index_tutee.html files to start using our service with the tutee/tutor you have chosen for testing. 
 
-**User Scenario Diagrams**
+## User Scenario Diagrams ##
 ![#1 User Scenario Diagram](https://user-images.githubusercontent.com/43470271/116657674-6a2c4300-a9c1-11eb-8dff-58a705cfb717.jpg)
 ![#2 1 User Scenario_](https://user-images.githubusercontent.com/43470271/116657676-6b5d7000-a9c1-11eb-8be9-1153d0347b10.jpg)
 ![#2 2 User Scenario_](https://user-images.githubusercontent.com/43470271/116657678-6bf60680-a9c1-11eb-8bde-96223a171e61.jpg)
@@ -55,6 +58,5 @@ This repository contains the codes that are used for developing a Tuition Matchi
 ![#4 2 User scenario](https://user-images.githubusercontent.com/43470271/116657686-6d273380-a9c1-11eb-972c-5d2275e7cfaf.jpg)
 ![#5 User scenario](https://user-images.githubusercontent.com/43470271/116657687-6d273380-a9c1-11eb-83f2-8e39e504e142.jpg)
 
-**Technical Overview Diagram for our Project**
+## Technical Overview Diagram for our Project ##
 ![Technical Overview 2](https://user-images.githubusercontent.com/43470271/116657335-cf336900-a9c0-11eb-8546-ace9eda9780d.jpg)
-
