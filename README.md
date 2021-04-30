@@ -1,6 +1,8 @@
 # ESD-Tuition-Matching
 This repository contains the codes that are used for developing a Tuition Matching Web Application as part of a school module project of creating an enterprise solution using microservices architecture.
 
+**How to set up our project?**
+
 1.	Run WAMP/MAMP server. 
 2.	Run Docker Desktop.
 3.	Create a working folder.
@@ -44,8 +46,15 @@ This repository contains the codes that are used for developing a Tuition Matchi
 14.	Check on Docker Desktop to ensure the container and various images are running
 15.	Open the index_tutor.html and index_tutee.html files to start using our service with the tutee/tutor you have chosen for testing. 
 
+**User Scenario Diagrams**
+![#1 User Scenario Diagram](https://user-images.githubusercontent.com/43470271/116657674-6a2c4300-a9c1-11eb-8dff-58a705cfb717.jpg)
+![#2 1 User Scenario_](https://user-images.githubusercontent.com/43470271/116657676-6b5d7000-a9c1-11eb-8be9-1153d0347b10.jpg)
+![#2 2 User Scenario_](https://user-images.githubusercontent.com/43470271/116657678-6bf60680-a9c1-11eb-8bde-96223a171e61.jpg)
+![#3 User scenario](https://user-images.githubusercontent.com/43470271/116657680-6bf60680-a9c1-11eb-99bc-bb223b832ee2.jpg)
+![#4 1 User scenario](https://user-images.githubusercontent.com/43470271/116657683-6c8e9d00-a9c1-11eb-9126-010c8ca739ca.jpg)
+![#4 2 User scenario](https://user-images.githubusercontent.com/43470271/116657686-6d273380-a9c1-11eb-972c-5d2275e7cfaf.jpg)
+![#5 User scenario](https://user-images.githubusercontent.com/43470271/116657687-6d273380-a9c1-11eb-83f2-8e39e504e142.jpg)
 
-
-
+**Technical Overview Diagram for our Project**
 ![Technical Overview 2](https://user-images.githubusercontent.com/43470271/116657335-cf336900-a9c0-11eb-8546-ace9eda9780d.jpg)
 
