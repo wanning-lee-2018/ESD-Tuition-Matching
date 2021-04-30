@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width" />
+
+  <title>My Posted Assignments</title>
+
+  <link rel="stylesheet" href="" />
+  <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  <!-- Bootstrap libraries -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <link rel="icon" href="img/favicon.png" type="image/png">
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+
+  <!-- Latest compiled and minified JavaScript -->
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- Start of Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="index_tutee.html"><img src="img/tutee_logo.png" alt=""></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="index_tutee.html">Post Assignment</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="check_tutee.html">Check Update<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- End of Navigation Bar -->
+
+  <div id="main-container" class="container">
+    <h1 class="display-4">My Tuition Assignments</h1>
+    <table id="asmgtTable" class="table table-striped" border="1">
+      <thead class="thead-dark">
+        <tr>
+          <th>AssignmentID</th>
+          <th>Subject</th>
+          <th>Rate</th>
+          <th>Tutor</th>
+          <th>Status</th>
+          <th>Application</th>
+        </tr>
+      </thead>
+    </table>
+    <!-- Modal to confirmation message of accept/reject-->
+    <div class="modal fade" id="statusModel" tabindex="-1" role="dialog" aria-labelledby="statusModelTitle"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="statusModelTitle">Status Updated</h5>
+          </div>
+          <div class="modal-body" +AssignmentID>
+            <p id="statusModelBody"></p>
+          </div>
+          <div class="modal-footer">
+            <a id="dismissStatusModel" class="btn btn-success" href="check_tutee.html">Okay</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End of Modal-->
+  </div>
+
+  <script>
+    // Helper function to display error message
+    function showError(message) {
+      // Hide the table and button in the event of error
+      $("#asmgtTable").hide();
+
+      // Display an error under the main container
+      $("#main-container").append("<label>" + message + "</label>");
+    }
+
+    // anonymous async function
+    // - using await requires the function that calls it to be async
+    $(async () => {
+      //var getAsgmtURL = "http://127.0.0.1:5100/manage_assignment/all/<TuteeID>"
+      // change the TuteeID to your own ID (this is to simulate login to your own account as a Tutee)
+      var getAsgmtURL = "http://127.0.0.1:5100/manage_assignment/all/4"; // TuteeID = 4
+
+      try {
+        const response = await fetch(getAsgmtURL, { method: "GET" });
+
+        const result = await response.json();
+        if (response.status === 200) {
+          // success case
+          var asgmts = result.data.posted_asgmt_result.data.assignments;
+          //the array is in books within data of the returned result
+
+          // for loop to setup all table rows with obtained assignment information
+          var rows = "<tbody>";
+          for (var asgmt of asgmts) {
+            console.log(asgmt);
+            var AssignmentID = asgmt.AssignmentID;
+            var Subject = asgmt.Subject;
+            var Rate = asgmt.Rate;
+            var TutorID = asgmt.TutorID;
+            var Status = asgmt.Status;
+            var TuteeID = asgmt.TuteeID;
+
+            // var tutor_details = getTutorDetails(AssignmentID); // get tutor details by assignment ID
+
+            // console.log(tutor_details);
+            rows += `
+                            <tr>
+                                <td> ${AssignmentID} </td>
+                                <td> ${Subject} </td>
+                                <td> ${Rate} </td>
+                                <td> ${TutorID} </td>
+                                <td> ${Status} </td>
+                                <td>
+                                  <button type="button" id = "view${TutorID}&${AssignmentID}" value = "${Status}" class="btn btn-primary" data-toggle="modal" onclick="getTutorDetails(${TutorID},${AssignmentID})">
+                                      View
+                                  </button>
+                                  
+                                  <div class="modal fade" id="tutorDetailsModal${AssignmentID}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content">
+                                          <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLongTitle">Tutor Information</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                          </button>
+                                          </div>
+                                          <div class="modal-body${AssignmentID}" id="${TutorID}" style='padding-left: 15px;'>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-success" data-dismiss="modal"  id="accept${AssignmentID}" onclick="getAccepted(${TutorID},${TuteeID},${AssignmentID})">
+                                              Accept
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal"  id="reject${AssignmentID}" onclick="getRejected(${TutorID},${TuteeID},${AssignmentID})">
+                                              Reject
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" id="dismiss" data-dismiss="modal">
+                                              Close
+                                            </button>
+                                          </div>
+                                      </div>
+                                      </div>
+                                  </div>
+                                </td>
+                            </tr>
+                                `;
+          }
+          rows += "</tbody>";
+
+          // add all the rows to the table
+          $("#asmgtTable").append(rows);
+        } else if (response.status == 404) {
+          // No books
+          showError(result.message);
+        } else {
+          // unexpected outcome, throw the error
+          throw response.status;
+        }
+      } catch (error) {
+        // Errors when calling the service; such as network error,
+        // service offline, etc
+        showError(
+          "There is a problem retrieving your posted assignments, please try again later.<br />" +
+          error
+        );
+      } // error
+    });
+
+    // this function gets tutor details by assignment ID 
+    function getTutorDetails(CheckTutorID, AssignmentID) {
+      // console.log("im in here, getting ur tutor details lol!!")
+      console.log(CheckTutorID);
+      console.log(AssignmentID);
+
+      Status = document.getElementById(`view${CheckTutorID}&${AssignmentID}`).value;
+      console.log(Status);
+
+      var modal_body_text = document.getElementsByClassName('modal-body' + AssignmentID);
+      modal_body_text = modal_body_text[0];
+
+      document.getElementById('accept' + AssignmentID).style.visibility = 'hidden';
+      document.getElementById('reject' + AssignmentID).style.visibility = 'hidden';
+
+      var html_str3 = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Retrieving Tutor Information...`;
+      modal_body_text.innerHTML = "";
+      modal_body_text.innerHTML = html_str3;
+      $('#tutorDetailsModal' + AssignmentID).modal('show');
+
+      $(async () => {
+        var getTutorInfo_URL = "http://127.0.0.1:5100/manage_assignment/" + String(AssignmentID);
+        console.log(getTutorInfo_URL);
+
+        try {
+          const response = await fetch(getTutorInfo_URL, { method: "GET" });
+          const result = await response.json();
+
+          if (response.status === 200) {
+            // success case
+            if (result.data.tutor_result.code === 200) {
+              // if (result.data.tutor_result.data.TutorID !== null) {
+              var tutor = result.data.tutor_result.data;
+              var TutorID = tutor.TutorID;
+              var Name = tutor.TutorName;
+              var Gender = tutor.TutorGender;
+              var Phone = tutor.TutorPhone;
+              var Age = tutor.TutorAge;
+              var Qualification = tutor.TutorQualification;
+              var TelegramID = tutor.TutorTelegramID;
+
+              if (CheckTutorID == TutorID) {
+                // console.log("Your tutor's details: " + "\n Name: " + Name + "\n Gender: " + Gender + "\n Phone Number: " + Phone
+                //   + "\n Age: " + Age + "\n Qualifications: " + Qualification + "\n Telegram: @" + TelegramID);
+
+                var html_str = "Name: " + Name + "<br> Gender: " + Gender
+                  + "<br> Age: " + Age + "<br> Qualifications: " + Qualification;
+
+                modal_body_text.innerHTML = "";
+                modal_body_text.innerHTML = html_str;
+
+                if (Status == 'Accepted') {
+                  var html_str1 = "<br> Phone Number: " + Phone
+                    + "<br>Telegram: @" + TelegramID;
+
+                  modal_body_text.innerHTML += html_str1;
+                }
+
+                if (Status == 'Pending') {
+                  //console.log("Here checking status!");
+                  document.getElementById('accept' + AssignmentID).style.visibility = 'visible';
+                  document.getElementById('reject' + AssignmentID).style.visibility = 'visible';
+                  //console.log("end of checking status!");
+                }
+
+
+                $('#tutorDetailsModal' + AssignmentID).modal('show');
+              }
+            }
+            else {
+              // console.log("no tutors applied");
+              var html_str2 = "No tutors have applied, please check again later";
+              modal_body_text.innerHTML = "";
+              modal_body_text.innerHTML = html_str2;
+              $('#tutorDetailsModal' + AssignmentID).modal('show');
+            }
+
+          } else if (response.status == 404) {
+            // No books
+            showError(result.message);
+          } else {
+            // unexpected outcome, throw the error
+            throw response.status;
+          }
+        } catch (error) {
+          // Errors when calling the service; such as network error,
+          // service offline, etc
+          showError(
+            "There is a problem retrieving your posted assignments, please try again later.<br />" +
+            error
+          );
+        } // error
+      });
+    }
+
+    function getAccepted(AcceptTutorID, AcceptTuteeID, AcceptAssignmentID) {
+      console.log(AcceptTutorID);
+      console.log(AcceptTuteeID);
+      console.log(AcceptAssignmentID);
+
+      var loading_str = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Accepting Tutor Application...`;
+      document.getElementById('statusModelTitle').style.visibility = 'hidden';
+      document.getElementById('statusModelBody').innerHTML = loading_str;
+      document.getElementById('dismissStatusModel').style.visibility = 'hidden';
+      $('#statusModel').modal('show');
+
+      $(async () => {
+        var accept_URL = "http://127.0.0.1:5100/manage_assignment/match/" + String(AcceptTutorID) + "/" + String(AcceptTuteeID) + "/" + String(AcceptAssignmentID);
+        // var accept_URL = "http://localhost:5100/manage_assignment/match/4/1/7"; //hardcorded to try if it works
+        console.log(accept_URL);
+
+        try {
+          const response =
+            await fetch(
+              accept_URL, {
+              method: 'PUT',
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                Status: "Accepted",
+                TuteeID: AcceptTuteeID,
+                TutorID: AcceptTutorID
+              })
+            });
+          if (response.ok) {
+            document.getElementById('statusModelTitle').style.visibility = 'visible';
+            document.getElementById('statusModelBody').innerText = "You have successfully accepted tutor " + AcceptTutorID + " for tuition assignment " + AcceptAssignmentID; //show the AssignmentID
+            document.getElementById('dismissStatusModel').style.visibility = 'visible';
+
+          } else if (response.status == 404) {
+            // idk if need this but i just leave it here first
+            document.getElementById('statusModelBody').innerText = result.message;
+          } else {
+            // unexpected outcome, throw the error
+            throw response.status;
+          }
+        } catch (error) {
+          // Errors when calling the service; such as network error, 
+          // service offline, etc
+          document.getElementById('statusModelTitle').innerText = "An error occurred while trying to accept tutor application";
+          document.getElementById('statusModelBody').innerText = error;
+          document.getElementById('dismissStatusModel').className = "btn btn-danger";
+        } // error 
+
+      });
+    }
+
+    function getRejected(rejectTutorID, rejectTuteeID, rejectAssignmentID) {
+      console.log(rejectTutorID);
+      console.log(rejectTuteeID);
+      console.log(rejectAssignmentID);
+
+      var loading_str = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Rejecting Tutor Application...`;
+      document.getElementById('statusModelTitle').style.visibility = 'hidden';
+      document.getElementById('statusModelBody').innerHTML = loading_str;
+      document.getElementById('dismissStatusModel').style.visibility = 'hidden';
+      $('#statusModel').modal('show');
+
+      $(async () => {
+        var reject_URL = "http://127.0.0.1:5100/manage_assignment/match/" + String(rejectTutorID) + "/" + String(rejectTuteeID) + "/" + String(rejectAssignmentID);
+        // var reject_URL = "http://localhost:5100/manage_assignment/match/4/1/5"; //hardcorded to try if it works
+        console.log(reject_URL);
+
+        try {
+          const response =
+            await fetch(
+              reject_URL, {
+              method: 'PUT',
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                Status: "Rejected",
+                TuteeID: rejectTuteeID,
+                TutorID: rejectTutorID
+              })
+            });
+          if (response.ok) {
+            document.getElementById('statusModelTitle').style.visibility = 'visible';
+            document.getElementById('statusModelBody').innerText = "You have successfully rejected tutor " + rejectTutorID + " for tuition assignment " + rejectAssignmentID; //show the AssignmentID
+            document.getElementById('dismissStatusModel').style.visibility = 'visible';
+
+          } else if (response.status == 404) {
+            // idk if need this but i just leave it here first
+            document.getElementById('statusModelBody').innerText = result.message;
+          } else {
+            // unexpected outcome, throw the error
+            throw response.status;
+          }
+        } catch (error) {
+          // Errors when calling the service; such as network error, 
+          // service offline, etc
+          document.getElementById('statusModelTitle').innerText = "An error occurred while trying to reject tutor application";
+          document.getElementById('statusModelBody').innerText = error;
+          document.getElementById('dismissStatusModel').className = "btn btn-danger";
+        } // error 
+
+      });
+    }
+  </script>
+   <!-- Start of footer-->
+   <footer class="container py-5">
+    <div class="row">
+        <div class="col-12 col-md" style="text-align: center;">
+            <img src="img/favicon.png" width="24" height="24" viewBox="0 0 24 24" fill="none"></img>
+            <small class="d-block mb-3 text-muted">G10T7</small>
+        <div class="col-6 col-md">
+            <a class="text-muted" href="index_tutee.html">Post Assignment</a>
+            <a class="text-muted" href="check_tutee.html">Check Update</a>
+        </div>
+    </div>
+</div>
+</footer>
+<!-- End of footer-->
+</body>
+</html>

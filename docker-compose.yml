@@ -1,0 +1,113 @@
+version: "3.8"
+
+volumes:
+  rabbitmq_data:
+
+services:
+ 
+  ###################################
+  # Tutee: The Tutee microservice
+  ###################################
+  tutee:
+    build:
+      context: ./ 
+      dockerfile: tutee.Dockerfile
+      #image: <dockerid>/tutee:esd
+    image: <dockerid>/tutee:esd
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/tutee
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5000:5000" 
+ 
+  #######################################################
+  # Tutor: The Tutor microservice 
+  #######################################################
+  tutor:
+    build:
+      context: ./
+      dockerfile: tutor.Dockerfile
+      #image: <dockerid>/tutor:esd
+    image: <dockerid>/tutor:esd
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/tutor
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5002:5002" 
+
+  ##################################
+  # Assignment: The Assignment microservice
+  ##################################
+  assignment:
+    build:
+      context: ./
+      dockerfile: assignment.Dockerfile
+      #image: <dockerid>/assignment:esd
+    image: <dockerid>/assignment:esd
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/assignment
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5001:5001" 
+ ####################################
+  # RabbitMQ: The messaging broker   
+  ####################################
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: esd-rabbit
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes: 
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  ###################################
+  # Notification
+  ###################################
+  notification:
+    build:
+      context: ./
+      dockerfile: notification.Dockerfile
+      #image: <dockerid>/notification:esd
+    image: <dockerid>/notification:esd
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      PYTHONUNBUFFERED: 1
+  
+ 
+  ###############################################
+  # Manage Assignment: The Manage Assignment microservice
+  ###############################################
+  manage_assignment:
+    build:
+      context: ./
+      dockerfile: manage_assignment.Dockerfile
+      #image: <dockerid>/manage_assignment:esd
+    image: <dockerid>/manage_assignment:esd
+    restart: always
+    depends_on:
+      - tutee
+      - tutor
+      - assignment
+      - rabbitmq
+      - notification
+
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      tutee_URL: http://tutee:5000/tutee
+      assignment_URL: http://assignment:5001/assignment
+      tutor_URL: http://tutor:5002/tutor
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5100:5100"
+
+
