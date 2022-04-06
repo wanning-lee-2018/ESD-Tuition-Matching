@@ -4,7 +4,7 @@ This repository contains the codes that are used for developing a Tuition Matchi
 
 **Project brief description**
 
-Used microservices architecture style to build a solution for a business scenario (tuition matching) using technologies and tools such as Python, Flask web framework, Docker for containerisation and efficient running of web application, AMQP-based communication using RabbitMQ message broker, Restful APIs (e.g Telegram, SendGrid) and database management such as MySQL, SQLAlchemy, WampServer and phpMyAdmin.
+Used microservices architecture style to build a solution for a business scenario (tuition matching- matching tutor to tutee) using technologies and tools such as Python programming language, Flask web framework, WampServer, Docker for containerisation and efficient running of web application, AMQP-based communication using RabbitMQ message broker, Restful APIs (e.g Telegram, SendGrid) and database management such as MySQL, SQLAlchemy,  and phpMyAdmin.
 
 The team consists of 5 members including myself ( Wan Ning, Trisha, Ling li, Jae Hyuk , Hong Haii )
 
@@ -14,34 +14,33 @@ The team consists of 5 members including myself ( Wan Ning, Trisha, Ling li, Jae
 2.	Run Docker Desktop.
 3.	Create a working folder.
 4.	Unzip the .zip file into the working folder. You should have the following:
-5.	
-●	img
-○	favicon.png
-○	tutee_logo.png
-○	tutor_logo.png
-●	amqp.reqs.txt
-●	amqp_setup.py
-●	assignment.Dockerfile
-●	assignment.py
-●	assignment.sql
-●	check_tutee.html
-●	check_tutor.html
-●	docker-compose.yml
-●	http.reqs.txt
-●	index_tutee.html
-●	index_tutor.html
-●	invokes.py
-●	manage_assignment.Dockerfile
-●	manage_assignment.py
-●	notification.Dockerfile
-●	notification.py
-●	telebot.py
-●	tutee.Dockerfile
-●	tutee.py
-●	tutee.sql
-●	tutor.Dockerfile
-●	tutor.py
-●	tutor.sql
+- img
+  - favicon.png
+  - tutee_logo.png
+  - tutor_logo.png
+- amqp.reqs.txt
+- amqp_setup.py
+- assignment.Dockerfile
+- assignment.py
+- assignment.sql
+- check_tutee.html
+- check_tutor.html
+- docker-compose.yml
+- http.reqs.txt
+- index_tutee.html
+- index_tutor.html
+- invokes.py
+- manage_assignment.Dockerfile
+- manage_assignment.py
+- notification.Dockerfile
+- notification.py
+- telebot.py
+- tutee.Dockerfile
+- tutee.py
+- tutee.sql
+- tutor.Dockerfile
+- tutor.py
+- tutor.sql
 
 5.	Go to http://localhost/phpmyadmin,  enter “root” in the username field and leave password field empty.
 6.	Use the following .sql files: “tutee.sql”, “tutor.sql”, and “assignment.sql”, to create and populate the databases in WampServer.
